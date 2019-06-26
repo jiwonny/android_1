@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.fragment.app.FragmentActivity;
+
 public class MainActivity extends FragmentActivity implements View.OnClickListener {
     Fragment1 frag1;
     Fragment2 frag2;
@@ -22,6 +23,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
+
 
         switch (v.getId()) {
             case R.id.bt1:

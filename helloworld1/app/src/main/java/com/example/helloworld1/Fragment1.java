@@ -19,15 +19,16 @@ import java.util.ArrayList;
 public class Fragment1 extends Fragment {
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager mLayoutManager;
+    MyAdapter myAdapter;
 
     View view;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_fragment1, container, false);
-        mRecyclerView = getView().findViewById(R.id.recycler_view);
+        mRecyclerView = view.findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(getActivity());
+        mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         ArrayList<FoodInfo> foodInfoArrayList = new ArrayList<>();
@@ -36,8 +37,8 @@ public class Fragment1 extends Fragment {
         foodInfoArrayList.add(new FoodInfo(R.drawable.c_icon, "양현석", "010-2222-2222"));
 
         MyAdapter myAdapter = new MyAdapter(foodInfoArrayList);
-
         mRecyclerView.setAdapter(myAdapter);
+
         return view;
     }
 }
