@@ -20,17 +20,17 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         frag3 = new Fragment3();
     }
 
-    @Override
-    public void onClick(View v) {
+                @Override
+                public void onClick(View v) {
 
-        switch (v.getId()) {
-            case R.id.bt1:
-                getFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.main_frame, frag1)
-                        .commit();
-                break;
-            case R.id.bt2:
+                switch (v.getId()) {
+                    case R.id.bt1:
+                        getFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.main_frame, frag1)
+                                .commit();
+                        break;
+                    case R.id.bt2:
                 getFragmentManager()
                         .beginTransaction()
                         .replace(R.id.main_frame, frag2)

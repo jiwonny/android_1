@@ -1,5 +1,6 @@
 package com.example.helloworld1;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,21 +14,24 @@ import java.util.ArrayList;
 public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
+
         ImageView ivPicture;
         TextView tvName;
         TextView tvPhone;
 
-        MyViewHolder(View view){
-            super(view);
-            ivPicture = view.findViewById(R.id.iv_picture);
-            tvName = view.findViewById(R.id.tv_name);
-            tvPhone = view.findViewById(R.id.tv_phone);
-        }
+    public MyViewHolder(View view){
+        super(view);
+
+        ivPicture = view.findViewById(R.id.iv_picture);
+        tvName = view.findViewById(R.id.tv_name);
+        tvPhone = view.findViewById(R.id.tv_phone);
+
     }
+}
 
     private ArrayList<FoodInfo> foodInfoArrayList;
-    MyAdapter(ArrayList<FoodInfo> foodInfoArrayList){
-        this.foodInfoArrayList = foodInfoArrayList;
+    MyAdapter(ArrayList<FoodInfo> foodInfoAL){
+        this.foodInfoArrayList = foodInfoAL;
     }
 
     @Override
