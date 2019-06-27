@@ -46,10 +46,18 @@ public class ImageAdapter extends BaseAdapter {
 //        Bundle extras = ((Activity)mContext).getIntent().getExtras();
 //        myUri = Uri.parse(extras.getString("albumImg"));
 //        imageView.setImageURI(myUri);
+
+//        Intent intent = ((Activity) mContext).getIntent();
+//
+//        ((Activity) mContext).setResult(((Activity) mContext).RESULT_OK,
+//                intent);
+//        ((Activity) mContext).finish();
+
         imageView.setImageResource(mThumbIds[position]);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         imageView.setLayoutParams(new GridView.LayoutParams(230, 230));
         return imageView;
     }
+
 
 }

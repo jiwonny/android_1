@@ -52,7 +52,7 @@ public class Fragment2 extends Fragment {
 
     Uri imageUri;
     Uri photoURI, albumURI;
-
+    ImageAdapter imageAdapter;
 
     @Nullable
     @Override
@@ -64,7 +64,8 @@ public class Fragment2 extends Fragment {
 
         //--------Grid View 로 이미 setting 된 image 보여주기----------------
         GridView gridView = (GridView) view.findViewById(R.id.grid_view);
-        gridView.setAdapter(new ImageAdapter(getActivity()));
+        imageAdapter = new ImageAdapter(getActivity());
+        gridView.setAdapter(imageAdapter);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -224,16 +225,20 @@ public class Fragment2 extends Fragment {
             case REQUEST_IMAGE_CROP:
                 if (resultCode == Activity.RESULT_OK) {
                     galleryAddPic();
-                    Intent intent = new Intent(getActivity(), ImageAdapter.class);
-                    intent.putExtra("albumImg",albumURI);
 
 
-                    startActivity(intent); // Image Adapter 로 전달
-//                    iv_view.setImageURI(albumURI);
+
+////                    gridView.setAdapter(new ImageAdapter(getActivity()));
+//
+//                    startActivity(intent); // Image Adapter 로 전달
+
+//                    getActivity().startActivity(intent);
+                   // iv_view.setImageURI(albumURI);
                 }
                 break;
         }
     }
+
 
     private void checkPermission() {
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
