@@ -16,7 +16,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -56,43 +58,43 @@ public class Fragment2 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_fragment2, container, false);
-        btn_capture = (Button) view.findViewById(R.id.btn_capture);
+//        btn_capture = (Button) view.findViewById(R.id.btn_capture);
         btn_album = (Button) view.findViewById(R.id.btn_album);
         iv_view = (ImageView) view.findViewById(R.id.iv_view);
 
-//        GridView gridView = (GridView) view.findViewById(R.id.grid_view);
-//        gridView.setAdapter(new ImageAdapter(getActivity()));
-//
-//        gridView.setOnItemClickListener(new OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View v,
-//                                    int position, long id) {
-//
-//                // Sending image id to FullScreenActivity
-//                Intent i = new Intent(getActivity(), FullImageActivity.class);
-//                // passing array index
-//                i.putExtra("id", position);
-//                startActivity(i);
-//            }
-//        });
+        //--------Grid View 로 이미 setting 된 image 보여주기----------------
+        GridView gridView = (GridView) view.findViewById(R.id.grid_view);
+        gridView.setAdapter(new ImageAdapter(getActivity()));
 
-       btn_capture.setOnClickListener(new View.OnClickListener() {
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                captureCamera();
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+
+                // Sending image id to FullScreenActivity
+                Intent i = new Intent(getActivity(), FullImageActivity.class);
+                // passing array index
+                i.putExtra("id", position);
+                startActivity(i);
             }
         });
+        //--------------------------------------------------------------------
 
+
+        //-----------------album 에서 사진 갖고오는 method call---------------
         btn_album.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getAlbum();
             }
         });
+        //--------------------------------------------------------------------
 
+        //grid view + button 보이고, 그 이전에 checkPermission
         checkPermission();
         return view;
     }
+    //촬영한 사진 갖고오는 method. 사용하지 않을 것.
     private void captureCamera(){
         String state = Environment.getExternalStorageState();
         // 외장 메모리 검사
@@ -124,6 +126,7 @@ public class Fragment2 extends Fragment {
         }
     }
 
+    //
     public File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -142,7 +145,7 @@ public class Fragment2 extends Fragment {
         return imageFile;
     }
 
-
+    //앨범에서 사진 갖고오기. PICK
     private void getAlbum(){
         Log.i("getAlbum", "Call");
         Intent intent = new Intent(Intent.ACTION_PICK);
@@ -182,23 +185,24 @@ public class Fragment2 extends Fragment {
         startActivityForResult(cropIntent, REQUEST_IMAGE_CROP);
     }
 
+    //get album 의  startActivityForResult(intent, REQUEST_TAKE_ALBUM); 로부터 시작.
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-            case REQUEST_TAKE_PHOTO:
-                if (resultCode == Activity.RESULT_OK) {
-                    try {
-                        Log.i("REQUEST_TAKE_PHOTO", "OK");
-                        galleryAddPic();
-
-                        iv_view.setImageURI(imageUri);
-                    } catch (Exception e) {
-                        Log.e("REQUEST_TAKE_PHOTO", e.toString());
-                    }
-                } else {
-                    Toast.makeText(getActivity(), "사진찍기를 취소하였습니다.", Toast.LENGTH_SHORT).show();
-                }
-                break;
+//            case REQUEST_TAKE_PHOTO:
+//                if (resultCode == Activity.RESULT_OK) {
+//                    try {
+//                        Log.i("REQUEST_TAKE_PHOTO", "OK");
+//                        galleryAddPic();
+//
+//                        iv_view.setImageURI(imageUri);
+//                    } catch (Exception e) {
+//                        Log.e("REQUEST_TAKE_PHOTO", e.toString());
+//                    }
+//                } else {
+//                    Toast.makeText(getActivity(), "사진찍기를 취소하였습니다.", Toast.LENGTH_SHORT).show();
+//                }
+//                break;
 
             case REQUEST_TAKE_ALBUM:
                 if (resultCode == Activity.RESULT_OK) {
@@ -219,9 +223,13 @@ public class Fragment2 extends Fragment {
 
             case REQUEST_IMAGE_CROP:
                 if (resultCode == Activity.RESULT_OK) {
-
                     galleryAddPic();
-                    iv_view.setImageURI(albumURI);
+                    Intent intent = new Intent(getActivity(), ImageAdapter.class);
+                    intent.putExtra("albumImg",albumURI);
+
+
+                    startActivity(intent); // Image Adapter 로 전달
+//                    iv_view.setImageURI(albumURI);
                 }
                 break;
         }

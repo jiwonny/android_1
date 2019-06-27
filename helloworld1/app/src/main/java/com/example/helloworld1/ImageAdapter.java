@@ -1,6 +1,7 @@
 package com.example.helloworld1;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
+    private Uri myUri;
 
     // Keep all Images in array
     public Integer[] mThumbIds = {
@@ -21,6 +23,7 @@ public class ImageAdapter extends BaseAdapter {
     public ImageAdapter(Context c){
         mContext = c;
     }
+
 
     @Override
     public int getCount() {
@@ -40,6 +43,9 @@ public class ImageAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ImageView imageView = new ImageView(mContext);
+//        Bundle extras = ((Activity)mContext).getIntent().getExtras();
+//        myUri = Uri.parse(extras.getString("albumImg"));
+//        imageView.setImageURI(myUri);
         imageView.setImageResource(mThumbIds[position]);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         imageView.setLayoutParams(new GridView.LayoutParams(230, 230));
