@@ -1,18 +1,13 @@
 package com.example.helloworld1;
 
-import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,10 +18,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import com.bumptech.glide.Glide;
@@ -45,7 +37,6 @@ import java.util.Date;
 public class Fragment2 extends Fragment {
     View view;
 
-    private static final int MY_PERMISSION_CAMERA = 1111;
     private static final int REQUEST_TAKE_PHOTO = 2222;
     private static final int REQUEST_TAKE_ALBUM = 3333;
     private static final int REQUEST_IMAGE_CROP = 4444;
@@ -101,7 +92,7 @@ public class Fragment2 extends Fragment {
 //        //--------------------------------------------------------------------
 
         //grid view + button 보이고, 그 이전에 checkPermission
-        checkPermission();
+
         return view;
     }
 
@@ -338,52 +329,4 @@ public class Fragment2 extends Fragment {
     }
 
 
-    private void checkPermission() {
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            // 다시 보지 않기 버튼을 만드려면 이 부분에 바로 요청을 하도록 하면 됨 (아래 else{..} 부분 제거)
-            // ActivityCompat.requestPermissions((Activity)mContext, new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSION_CAMERA);
-
-            // 처음 호출시엔 if()안의 부분은 false로 리턴 됨 -> else{..}의 요청으로 넘어감
-            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                new AlertDialog.Builder(getActivity())
-                        .setTitle("알림")
-                        .setMessage("저장소 권한이 거부되었습니다. 사용을 원하시면 설정에서 해당 권한을 직접 허용하셔야 합니다.")
-                        .setNeutralButton("설정", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                intent.setData(Uri.parse("package:" + getActivity().getPackageName()));
-                                startActivity(intent);
-                            }
-                        })
-                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                getActivity().finish();
-                            }
-                        })
-                        .setCancelable(false)
-                        .create()
-                        .show();
-            } else {
-                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSION_CAMERA);
-            }
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSION_CAMERA:
-                for (int i = 0; i < grantResults.length; i++) {
-                    // grantResults[] : 허용된 권한은 0, 거부한 권한은 -1
-                    if (grantResults[i] < 0) {
-                        Toast.makeText(getActivity(), "해당 권한을 활성화 하셔야 합니다.", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                }
-                // 허용했다면 이 부분에서..
-                break;
-        }
-    }
 }
