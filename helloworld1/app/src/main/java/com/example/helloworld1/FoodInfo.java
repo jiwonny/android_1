@@ -1,12 +1,14 @@
 package com.example.helloworld1;
 
 public class FoodInfo {
-    public int drawableId;
+    public long id;
+    public long image_id;
     public String name;
     public String phone;
 
-    public FoodInfo(int drawableId, String name, String phone){
-        this.drawableId = drawableId;
+    public FoodInfo(long id, long image_id, String name, String phone){
+        this.id = id;
+        this.image_id = image_id;
         this.name = name;
         this.phone = phone;
     }
