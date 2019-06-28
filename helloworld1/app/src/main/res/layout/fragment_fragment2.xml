@@ -8,7 +8,7 @@
 
     <GridView
         android:id="@+id/grid_view"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:columnWidth="90dp"
@@ -18,16 +18,13 @@
         android:stretchMode="columnWidth"
         android:verticalSpacing="10dp" />
 
-    <Button
-        android:id="@+id/btn_album"
-        android:text="앨범에서 갖고오기"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+
 
     <ImageView
         android:id="@+id/iv_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"/>
     <!--<android.support.v7.widget.AppCompatImageView-->
                 <!--android:layout_width="match_parent"-->
                 <!--android:layout_height="400dp"-->

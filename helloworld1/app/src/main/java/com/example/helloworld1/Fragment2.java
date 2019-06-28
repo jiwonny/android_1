@@ -7,6 +7,7 @@ import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -16,7 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -28,9 +29,13 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
+import com.bumptech.glide.Glide;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
 /**
@@ -53,13 +58,15 @@ public class Fragment2 extends Fragment {
     Uri imageUri;
     Uri photoURI, albumURI;
     ImageAdapter imageAdapter;
+    private ArrayList<String> images;
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_fragment2, container, false);
 //        btn_capture = (Button) view.findViewById(R.id.btn_capture);
-        btn_album = (Button) view.findViewById(R.id.btn_album);
+       // btn_album = (Button) view.findViewById(R.id.btn_album);
         iv_view = (ImageView) view.findViewById(R.id.iv_view);
 
         //--------Grid View 로 이미 setting 된 image 보여주기----------------
@@ -67,33 +74,124 @@ public class Fragment2 extends Fragment {
         imageAdapter = new ImageAdapter(getActivity());
         gridView.setAdapter(imageAdapter);
 
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id) {
+//        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View v,
+//                                    int position, long id) {
+//
+//                // Sending image id to FullScreenActivity
+//                Intent i = new Intent(getActivity(), FullImageActivity.class);
+//                // passing array index
+//                i.putExtra("id", position);
+//                startActivity(i);
+//            }
+//        });
 
-                // Sending image id to FullScreenActivity
-                Intent i = new Intent(getActivity(), FullImageActivity.class);
-                // passing array index
-                i.putExtra("id", position);
-                startActivity(i);
-            }
-        });
+
         //--------------------------------------------------------------------
 
 
-        //-----------------album 에서 사진 갖고오는 method call---------------
-        btn_album.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getAlbum();
-            }
-        });
-        //--------------------------------------------------------------------
+//        //-----------------album 에서 사진 갖고오는 method call---------------
+//        btn_album.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                getAlbum();
+//            }
+//        });
+//        //--------------------------------------------------------------------
 
         //grid view + button 보이고, 그 이전에 checkPermission
         checkPermission();
         return view;
+    }
+
+    public class ImageAdapter extends BaseAdapter {
+        private Activity mContext;
+        private Uri myUri;
+
+        // Keep all Images in array
+//    public Integer[] mThumbIds = {
+//            R.drawable.pic_1, R.drawable.pic_2,
+//            R.drawable.pic_3, R.drawable.pic_4,
+//            R.drawable.pic_5, R.drawable.pic_6
+//    };
+
+
+        public ImageAdapter(Activity localContext) {
+            mContext = localContext;
+            images = getAllShownImagesPath(mContext);
+        }
+
+        public int getCount() {
+            return images.size();
+        }
+
+        public Object getItem(int position) {
+            return position;
+        }
+
+        public long getItemId(int position) {
+            return position;
+        }
+
+        public View getView(final int position, View convertView,
+                            ViewGroup parent) {
+            ImageView picturesView;
+
+            if (convertView == null) {
+                picturesView = new ImageView(mContext);
+                picturesView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                picturesView
+                        .setLayoutParams(new GridView.LayoutParams(270, 270));
+
+            } else {
+                picturesView = (ImageView) convertView;
+            }
+
+            Glide.with(mContext).load(images.get(position))
+                    .placeholder(R.drawable.pic_1).centerCrop()
+                    .into(picturesView);
+
+
+
+
+            return picturesView;
+        }
+
+        /**
+         * Getting All Images Path.
+         *
+         * @param activity
+         *            the activity
+         * @return ArrayList with images Path
+         */
+        private ArrayList<String> getAllShownImagesPath(Activity activity) {
+            Uri uri;
+            Cursor cursor;
+            int column_index_data, column_index_folder_name;
+            ArrayList<String> listOfAllImages = new ArrayList<String>();
+            String absolutePathOfImage = null;
+            uri = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+
+            String[] projection = { MediaStore.MediaColumns.DATA,
+                    MediaStore.Images.Media.BUCKET_DISPLAY_NAME };
+
+            cursor = activity.getContentResolver().query(uri, projection, null,
+                    null, null);
+
+            column_index_data = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
+            column_index_folder_name = cursor
+                    .getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME);
+            while (cursor.moveToNext()) {
+                absolutePathOfImage = cursor.getString(column_index_data);
+
+                listOfAllImages.add(absolutePathOfImage);
+            }
+
+            Collections.reverse(listOfAllImages);
+            return listOfAllImages;
+        }
+
     }
     //촬영한 사진 갖고오는 method. 사용하지 않을 것.
     private void captureCamera(){
