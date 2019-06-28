@@ -27,25 +27,24 @@ import androidx.fragment.app.FragmentActivity;
             frag3 = new Fragment3();
         }
 
-    @Override
-    public void onClick(View v) {
+                @Override
+                public void onClick(View v) {
 
-
-        switch (v.getId()) {
-            case R.id.bt1:
-                getFragmentManager()
-                        .beginTransaction()
-                        .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-                        .replace(R.id.main_frame, frag1)
-                        .commit();
-                break;
-            case R.id.bt2:
-                getFragmentManager()
-                        .beginTransaction()
-                        .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-                        .replace(R.id.main_frame, frag2)
-                        .commit();
-                break;
+=
+            switch (v.getId()) {
+                case R.id.bt1:
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.main_frame, frag1)
+                            .commit();
+                    break;
+                case R.id.bt2:
+                    getFragmentManager()
+                            .beginTransaction()
+                            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                            .replace(R.id.main_frame, frag2)
+                            .commit();
+                    break;
             case R.id.bt3:
                 getFragmentManager()
                         .beginTransaction()

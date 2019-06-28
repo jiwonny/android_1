@@ -1,1 +1,23 @@
-abcabc
+4대 주요 컴포넌트라고 하면 액티비티, 서비스, 브로드캐스트 리시버, 콘텐트 프로바이더
+
+VIEW(뷰): 화면 구성을 담당하는 영역이며, 이 영역은 View 클래스를 상속하는 클래스를 사용해서 구성할 수 있다.
+
+view holder
+뷰들을 홀더에 꼽아놓듯이 보관하는 객체, 각각의 row를 그려낼 때 
+그 안의 위젯들의 속성을 변경하기 위해 findViewByld 를 호출하는데 
+이것의 비용이 큰것을 줄이기 위해 사용합니다.
+
+    public void onClick01(View v){
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://m.naver.com"));
+        startActivity(intent);
+    }
+    public void onClick03(View v){
+        Toast toast_01 = Toast.makeText(getApplicationContext(), "버튼이 눌렸습니다", Toast.LENGTH_LONG);
+        toast_01.setGravity(Gravity.CENTER, 50, 50);
+        toast_01.show();
+    }
+    public void onClick02(View v){
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("tel:010-1234-5678"));
+        startActivity(intent);
+    }
+}
