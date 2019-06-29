@@ -1,16 +1,13 @@
 package com.example.helloworld1;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.text.Layout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +23,8 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
         TextView tvName;
         TextView tvPhone;
         LinearLayout parentLayout;
+        Button callButton;
+        Button msgButton;
 
     public MyViewHolder(View view){
         super(view);
@@ -34,6 +33,8 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
         tvName = view.findViewById(R.id.tv_name);
         //tvPhone = view.findViewById(R.id.tv_phone);
         parentLayout = view.findViewById(R.id.linearLayout);
+        callButton = view.findViewById(R.id.bt_call);
+        msgButton = view.findViewById(R.id.bt_msg);
 
     }
 }
@@ -63,11 +64,25 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
         final String Ph_number = foodInfoArrayList.get(position).phone;
         final long ID = foodInfoArrayList.get(position).id;
         final long Image_ID = foodInfoArrayList.get(position).image_id;
+        myViewHolder.msgButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                Toast.makeText(view.getContext(), "메시지 보내기", Toast.LENGTH_SHORT).show();
+                Intent d = new Intent(Intent.ACTION_VIEW, Uri.parse("smsto:"+Ph_number));
+                view.getContext().startActivity(d);
+            }
+        });
+        myViewHolder.callButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                Toast.makeText(view.getContext(), "전화 걸기", Toast.LENGTH_SHORT).show();
+                Intent c = new Intent(Intent.ACTION_VIEW, Uri.parse("tel:"+Ph_number));
+                view.getContext().startActivity(c);
+            }
+                                                   });
         myViewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Toast.makeText(view.getContext(), "전화걸기", Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), "연락처 보기", Toast.LENGTH_SHORT).show();
 
                 Intent i = new Intent(view.getContext(), subactivity_contact.class);
                 i.putExtra("name", Name);

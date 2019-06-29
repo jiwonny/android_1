@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.helloworld1.R;
+
 import java.io.InputStream;
 
 public class subactivity_contact extends Activity {
@@ -52,7 +54,7 @@ public class subactivity_contact extends Activity {
             @Override
             public void onClick(View view) {
 
-                Toast.makeText(view.getContext(), "연락처 보기", Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), "전화 걸기", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("tel:"+ Ph_number));
                 view.getContext().startActivity(intent);
@@ -64,7 +66,7 @@ public class subactivity_contact extends Activity {
 
     public void onClick_exit(View view) {
 
-        Toast.makeText(view.getContext(), "전화걸기", Toast.LENGTH_SHORT).show();
+        Toast.makeText(view.getContext(), "나가기", Toast.LENGTH_SHORT).show();
         finish();
     }
     public Bitmap loadContactPhoto(ContentResolver cr, long id, long photo_id) {
