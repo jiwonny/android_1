@@ -39,6 +39,12 @@ public class MainActivity extends AppCompatActivity {
         if (!listPermissionsNeeded.isEmpty()) {
             ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]),MULTIPLE_PERMISSIONS );
             return false;
+        }else{
+            ViewPager viewPager = findViewById(R.id.view_pager);
+            SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
+            viewPager.setAdapter(sectionsPagerAdapter);
+            TabLayout tabs = findViewById(R.id.tabs);
+            tabs.setupWithViewPager(viewPager);
         }
         return true;
     }
@@ -90,8 +96,7 @@ public class MainActivity extends AppCompatActivity {
 //        TabLayout tabs = findViewById(R.id.tabs);
 //        tabs.setupWithViewPager(viewPager);
 
-
         checkPermissions();
-
+        
     }
 }
