@@ -23,6 +23,9 @@
         <activity android:name=".subactivity_contact">
         </activity>
 
+        <activity android:name=".ModifyMemo_Activity">
+        </activity>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
