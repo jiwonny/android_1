@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.helloworld1.R;
+
 import java.io.InputStream;
 
 public class subactivity_contact extends Activity {
@@ -43,6 +45,11 @@ public class subactivity_contact extends Activity {
         coPhone.setText(Ph_number);
 
         coImage.setImageBitmap(loadContactPhoto(getContentResolver(), id, photo_id));
+//
+//        Glide.with(this).load(coImage)
+//                .error(R.drawable.pic_1)
+//                .into(coImage);
+
         coPhone.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {

@@ -1,8 +1,5 @@
 package com.example.helloworld1;
 
-import android.Manifest;
-import android.app.Fragment;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,10 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,7 +17,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 
 
 /**
@@ -78,8 +71,6 @@ public class Fragment1 extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
 
-
-
         ArrayList<FoodInfo> foodInfoArrayList = new ArrayList<>();
         String address = getContactList();
         /*
@@ -116,4 +107,3 @@ public class Fragment1 extends Fragment {
         return view;
     }
 }
-
