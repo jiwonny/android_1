@@ -1,15 +1,10 @@
 package com.example.helloworld1;
 
 import android.Manifest;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.app.ActionBar;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -109,7 +104,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         Fragment2 frag2;
         Fragment3 frag3;
         @Override
-        protected void onCreate(Bundle savedInstanceState) {
+        protected void onCreate(Bundle savedInstanceState){
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
 
@@ -117,6 +112,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             findViewById(R.id.bt1).setOnClickListener(this);
             findViewById(R.id.bt2).setOnClickListener(this);
             findViewById(R.id.bt3).setOnClickListener(this);
+
             frag1 = new Fragment1();
             frag2 = new Fragment2();
             frag3 = new Fragment3();
