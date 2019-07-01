@@ -9,4 +9,7 @@ public class MemoInfo {
         this.date = date;
         this.content = content;
     }
+    public MemoInfo getMemoInfo(){
+        return this;
+    }
 }

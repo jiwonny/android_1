@@ -4,12 +4,14 @@ package com.example.helloworld1;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class DBHelper extends SQLiteOpenHelper {
+public class DBHelper extends SQLiteOpenHelper implements Serializable {
 
     // DBHelper 생성자로 관리할 DB 이름과 버전 정보를 받음
     public DBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -22,7 +24,7 @@ public class DBHelper extends SQLiteOpenHelper {
         // 새로운 테이블 생성
         /* 이름은 MONEYBOOK이고, 자동으로 값이 증가하는 _id 정수형 기본키 컬럼과
         item 문자열 컬럼, price 정수형 컬럼, create_at 문자열 컬럼으로 구성된 테이블을 생성. */
-        db.execSQL("CREATE TABLE MONEYBOOK (_id INTEGER PRIMARY KEY AUTOINCREMENT, item TEXT, create_at TEXT);");
+        db.execSQL(" CREATE TABLE IF NOT EXISTS MONEYBOOK (_id INTEGER PRIMARY KEY AUTOINCREMENT, item TEXT, create_at TEXT);");
     }
 
     // DB 업그레이드를 위해 버전이 변경될 때 호출되는 함수
@@ -70,6 +72,15 @@ public class DBHelper extends SQLiteOpenHelper {
         }
 
         return result;
+    }
+    public void opener(){
+        SQLiteDatabase sqliteDB = null;
+
+        try {
+            sqliteDB = SQLiteDatabase.openOrCreateDatabase("MemoBook.db", null) ;
+        } catch (SQLiteException e) {
+            e.printStackTrace() ;
+        }
     }
     public ArrayList getResultof(String item){
         SQLiteDatabase db = getReadableDatabase();
