@@ -21,9 +21,21 @@ public class DBHelper extends SQLiteOpenHelper {
         // 새로운 테이블 생성
         /* 이름은 MONEYBOOK이고, 자동으로 값이 증가하는 _id 정수형 기본키 컬럼과
         item 문자열 컬럼, price 정수형 컬럼, create_at 문자열 컬럼으로 구성된 테이블을 생성. */
-        db.execSQL("CREATE TABLE MONEYBOOK (_id INTEGER PRIMARY KEY AUTOINCREMENT, item TEXT, create_at TEXT);");
+
+        db.execSQL(" CREATE TABLE IF NOT EXISTS MONEYBOOK (_id INTEGER PRIMARY KEY AUTOINCREMENT, item TEXT, create_at TEXT);");
     }
 
+    public String select(String id){
+        SQLiteDatabase db = getWritableDatabase();
+        String result = "";
+        // DB에 입력한 값으로 행 추가
+        Cursor cursor = db.rawQuery("SELECT ITEM FROM MONEYBOOK WHERE _id="+id+";", null);
+        while (cursor.moveToNext()) {
+            result += cursor.getString(0);
+        }
+        db.close();
+        return result;
+    }
     // DB 업그레이드를 위해 버전이 변경될 때 호출되는 함수
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

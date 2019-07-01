@@ -1,5 +1,6 @@
 package com.example.helloworld1;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -7,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,13 +21,17 @@ public class Adapter_memo extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         TextView tvMemo;
         Button btEdit;
         Button btDelete;
+        LinearLayout lll;
+
 //        LinearLayout parentLayout;
 
         public ContentViewHolder(View view){
             super(view);
+
             tvMemo = view.findViewById(R.id.tv_memo);
             btEdit = view.findViewById(R.id.bt_edit);
             btDelete = view.findViewById(R.id.bt_delete);
+            lll = view.findViewById(R.id.lll);
 
 //            parentLayout = view.findViewById(R.id.linearLayout);
         }
@@ -44,8 +50,10 @@ public class Adapter_memo extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
 
-        ContentViewHolder Holder = (ContentViewHolder) holder;
+        final ContentViewHolder Holder = (ContentViewHolder) holder;
+        Fragment3 fragment3 = new Fragment3();
 
+        final DBHelper dbHelper = new DBHelper(Holder.tvMemo.getContext(), "MemoBook30.db", null, 1);
         Holder.tvMemo.setText(MemoInfoArrayList.get(position).content);
 
         Holder.btEdit.setOnClickListener(new View.OnClickListener(){
@@ -55,10 +63,15 @@ public class Adapter_memo extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 Intent i = new Intent(view.getContext(), ModifyMemo_Activity.class);
                 i.putExtra("date", MemoInfoArrayList.get(position).id+"&&"+MemoInfoArrayList.get(position).date + "&&"+MemoInfoArrayList.get(position).content);
 
-                view.getContext().startActivity(i);
+                ((Activity) view.getContext()).startActivityForResult(i, 1);
+                //String modified_memo = dbHelper.select(Integer.toString(MemoInfoArrayList.get(position).id));
+                //Holder.tvMemo.setText(modified_memo);
 
             }
+
+
         });
+
         Holder.btDelete.setOnClickListener(new View.OnClickListener(){
             public void onClick(final View view){
 
@@ -73,7 +86,7 @@ public class Adapter_memo extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                                 Intent i = new Intent(view.getContext(), DeleteMemo_Activity.class);
                                 i.putExtra("date", MemoInfoArrayList.get(position).id+"&&"+MemoInfoArrayList.get(position).date + "&&"+MemoInfoArrayList.get(position).content);
 
-                                view.getContext().startActivity(i);
+                                ((Activity) view.getContext()).startActivityForResult(i, 0);
                                 Toast.makeText(view.getContext(), "일정이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
 
                             }
@@ -90,24 +103,21 @@ public class Adapter_memo extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             }
         });
 
-//        final String Memo = MemoInfoArrayList.get(position).content;
-/*
-        myViewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Toast.makeText(view.getContext(), "연락처 보기", Toast.LENGTH_SHORT).show();
-
-                Intent i = new Intent(view.getContext(), subactivity_contact.class);
-                i.putExtra("name", );
-
-                view.getContext().startActivity(i);
-            }
-        });
-        */
     }
+
     @Override
     public int getItemCount() {
         return MemoInfoArrayList.size();
+    }
+
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        //DBHelper dbHelper = new DBHelper(view.getContext(), "MemoBook30.db", null, 1);
+        switch (requestCode){
+            case 0:
+                notifyDataSetChanged();
+                break;
+        }
+
     }
 }

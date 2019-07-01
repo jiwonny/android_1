@@ -39,11 +39,11 @@ public class Fragment3 extends Fragment {
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        final DBHelper dbHelper = new DBHelper(getActivity().getApplicationContext(), "MemoBook22.db", null, 1);
+        final DBHelper dbHelper = new DBHelper(getActivity().getApplicationContext(), "MemoBook30.db", null, 1);
 
         long now = System.currentTimeMillis();
         Date date = new Date(now);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/M/dd");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/M/d");
 
 
         final String[] cur_date = {simpleDateFormat.format(date)};
@@ -108,9 +108,34 @@ public class Fragment3 extends Fragment {
                 public void onClick(View v) {
                 Intent i = new Intent(v.getContext(), AddMemo_Activity.class);
                 i.putExtra("date", cur_date[0]);
-                v.getContext().startActivity(i);
+                startActivityForResult(i,0);
+                //v.getContext().startActivity(i);
             }
         });
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        DBHelper dbHelper = new DBHelper(getActivity().getApplicationContext(), "MemoBook30.db", null, 1);
+        switch (requestCode){
+            case 0:
+                String mdate = data.getStringExtra("date");
+                ArrayList<String> mitem = data.getStringArrayListExtra("item");
+                for(int e=0; e<mitem.size(); e++){
+                    Log.i("asd",mdate);
+                    Log.i("asd",mitem.get(e));
+                    dbHelper.insert(mdate, mitem.get(e));
+                }
+
+                dInfoArrayList = dbHelper.getResultof(mdate);
+                MemoInfoArrayList.clear();
+                for (int i=0; i<dInfoArrayList.size(); i++){
+                    MemoInfoArrayList.add(new MemoInfo(dInfoArrayList.get(i).id, dInfoArrayList.get(i).date,dInfoArrayList.get(i).content));
+                }
+                myAdapter.notifyDataSetChanged();
+                break;
+        }
+
     }
 }
