@@ -1,10 +1,11 @@
 package com.example.helloworld1;
 
 
-import android.content.Intent;
-import android.os.Bundle;
+        import android.content.Intent;
+        import android.os.Bundle;
+        import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+        import androidx.appcompat.app.AppCompatActivity;
 
 public class DeleteMemo_Activity extends AppCompatActivity {
 
@@ -18,11 +19,14 @@ public class DeleteMemo_Activity extends AppCompatActivity {
 
         Intent i = getIntent();
         final String memo_id = i.getExtras().getString("date").split("&&")[0];
+        final String date = i.getExtras().getString("date").split("&&")[1];
 
         dbHelper.delete(memo_id);
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("date3", date);
+        setResult(2,resultIntent);
         //result.setText(dbHelper.getResultof(cur_date));
-       finish();
-
+        finish();
 
     }
 

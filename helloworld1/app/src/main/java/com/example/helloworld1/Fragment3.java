@@ -1,5 +1,8 @@
 package com.example.helloworld1;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -24,6 +28,9 @@ import java.util.Date;
  * A simple {@link Fragment} subclass.
  */
 public class Fragment3 extends Fragment {
+
+
+
     View view;
     RecyclerView mRecyclerView;
     Adapter_memo myAdapter;
@@ -61,8 +68,52 @@ public class Fragment3 extends Fragment {
             MemoInfoArrayList.add(new MemoInfo(dInfoArrayList.get(i).id, dInfoArrayList.get(i).date,dInfoArrayList.get(i).content));
         }
 
-        myAdapter = new Adapter_memo(MemoInfoArrayList);
+        myAdapter = new Adapter_memo(this.getContext(), MemoInfoArrayList);
         mRecyclerView.setAdapter(myAdapter);
+        myAdapter.setOnItemClickListener(new Adapter_memo.OnItemClickListener() {
+        @Override
+        public void onHandleSelection(final int position, int request_code, final ArrayList<MemoInfo> MemoInfoArrayList){
+            switch (request_code) {
+                case 1: {
+                    Intent secondActivity = new Intent(getActivity(), ModifyMemo_Activity.class);
+                    secondActivity.putExtra("date", MemoInfoArrayList.get(position).id + "&&" + MemoInfoArrayList.get(position).date + "&&" + MemoInfoArrayList.get(position).content);
+                    startActivityForResult(secondActivity, request_code);
+                    break;
+                }
+                case 2: {
+
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                    builder.setCancelable(true);
+                    builder.setTitle("삭제");
+                    builder.setMessage("해당 일정을 삭제하시겠습니까?");
+                    builder.setPositiveButton("삭제",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent i = new Intent(getActivity(), DeleteMemo_Activity.class);
+                                    i.putExtra("date", MemoInfoArrayList.get(position).id + "&&" + MemoInfoArrayList.get(position).date + "&&" + MemoInfoArrayList.get(position).content);
+
+                                    startActivityForResult(i, 2);
+                                    Toast.makeText(getActivity(), "일정이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+
+                                }
+
+                            });
+                    builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+
+                }
+            }
+        }
+            // ... Start a new Activity here and pass the values
+        });
 
 
         CalendarView calendar = (CalendarView)view.findViewById(R.id.calendar);
@@ -117,6 +168,7 @@ public class Fragment3 extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
         DBHelper dbHelper = new DBHelper(getActivity().getApplicationContext(), "MemoBook30.db", null, 1);
         switch (requestCode){
             case 0:
@@ -135,7 +187,34 @@ public class Fragment3 extends Fragment {
                 }
                 myAdapter.notifyDataSetChanged();
                 break;
+            case 1:
+                String mdate2 = data.getStringExtra("date2");
+
+
+                dInfoArrayList = dbHelper.getResultof(mdate2);
+                MemoInfoArrayList.clear();
+                for (int i=0; i<dInfoArrayList.size(); i++){
+                    MemoInfoArrayList.add(new MemoInfo(dInfoArrayList.get(i).id, dInfoArrayList.get(i).date,dInfoArrayList.get(i).content));
+                }
+                myAdapter.notifyDataSetChanged();
+
+                break;
+
+            case 2:
+                String mdate3 = data.getStringExtra("date3");
+                dInfoArrayList = dbHelper.getResultof(mdate3);
+                MemoInfoArrayList.clear();
+                int i;
+                for (i=0; i<dInfoArrayList.size(); i++){
+                    MemoInfoArrayList.add(new MemoInfo(dInfoArrayList.get(i).id, dInfoArrayList.get(i).date,dInfoArrayList.get(i).content));
+        }
+                Log.i("dd",Integer.toString(i));
+                myAdapter.notifyDataSetChanged();
+
         }
 
+
     }
+
+
 }

@@ -39,10 +39,15 @@ public class ModifyMemo_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String item = etItem.getText().toString();
+                String item = etItem.getText().toString(); //일정내용
+                String date = etDate.getText().toString();
                 //int price = Integer.parseInt(etPrice.getText().toString());
                 Toast.makeText(v.getContext(), "일정이 수정되었습니다.", Toast.LENGTH_SHORT).show();
                 dbHelper.update(item, memo_id);
+//                setResult(RESULT_OK);
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("date2", date);
+                setResult(1,resultIntent);
                 finish();
                 //result.setText(dbHelper.getResultof(cur_date));
             }
@@ -54,6 +59,10 @@ public class ModifyMemo_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(v.getContext(), "나가기", Toast.LENGTH_SHORT).show();
+                Intent data = new Intent();
+                data.putExtra("date2", cur_date);
+
+                setResult(1,data);
                 finish();
             }
 
