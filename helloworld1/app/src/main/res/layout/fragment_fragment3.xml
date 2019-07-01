@@ -14,24 +14,35 @@
     >
 
     <CalendarView
-
         android:id="@+id/calendar"
-
         android:layout_width="match_parent"
-
-        android:layout_height="356dp"
-
-        android:layout_weight="0"
-
-        />
+        android:layout_height="313dp"
+        android:layout_weight="0" />
 
     <TextView
-        android:id="@+id/text_content"
+        android:id="@+id/date_text"
         android:layout_width="match_parent"
-        android:layout_height="102dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="10dp"
         android:layout_weight="0"
-        android:text="TextView" />
+        android:text="TextView"
+        android:textColor="#000000"
+        android:textFontWeight="50"
+        android:textSize="18dp" />
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
+
+        <TextView
+            android:id="@+id/text_content"
+            android:layout_width="match_parent"
+            android:layout_height="66dp"
+            android:layout_weight="0"
+            android:text="TextView" />
+    </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

@@ -39,8 +39,11 @@ public class Fragment3 extends Fragment {
 
         final String[] cur_date = {simpleDateFormat.format(date)};
         final TextView text_content = view.findViewById(R.id.text_content);
-        text_content.setText(dbHelper.getResultof(cur_date[0]));
+        final TextView date_text = view.findViewById(R.id.date_text);
 
+        text_content.setText(dbHelper.getResultof(cur_date[0]));
+        String date_title = cur_date[0].split("/")[1]+" 월 "+cur_date[0].split("/")[2]+" 일" + "  일정";
+        date_text.setText(date_title);
         CalendarView calendar = (CalendarView)view.findViewById(R.id.calendar);
 
         //리스너 등록
@@ -56,6 +59,8 @@ public class Fragment3 extends Fragment {
                 cur_date[0] = ""+year+"/"+(month+1)+"/" +dayOfMonth;
                 Log.i("선택",cur_date[0]);
                 text_content.setText(dbHelper.getResultof(cur_date[0]));
+                String date_title = (month+1)+ " 월 " + dayOfMonth + " 일 일정";
+                date_text.setText(date_title);
 
             }
 

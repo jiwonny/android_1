@@ -26,6 +26,9 @@
         <activity android:name=".ModifyMemo_Activity">
         </activity>
 
+        <activity android:name=".FullImageActivity">
+        </activity>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"

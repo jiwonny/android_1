@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
@@ -65,18 +66,18 @@ public class Fragment2 extends Fragment {
         imageAdapter = new ImageAdapter(getActivity());
         gridView.setAdapter(imageAdapter);
 
-//        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View v,
-//                                    int position, long id) {
-//
-//                // Sending image id to FullScreenActivity
-//                Intent i = new Intent(getActivity(), FullImageActivity.class);
-//                // passing array index
-//                i.putExtra("id", position);
-//                startActivity(i);
-//            }
-//        });
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+
+                // Sending image id to FullScreenActivity
+                Intent i = new Intent(getActivity(), FullImageActivity.class);
+                // passing array index
+                i.putExtra("path", images.get(position));
+                startActivity(i);
+            }
+        });
 
 
         //--------------------------------------------------------------------
@@ -139,8 +140,7 @@ public class Fragment2 extends Fragment {
                 picturesView = (ImageView) convertView;
             }
 
-            Glide.with(mContext).load(images.get(position))
-                    .placeholder(R.drawable.pic_1).centerCrop()
+            Glide.with(mContext).load(images.get(position)).centerCrop()
                     .into(picturesView);
 
 

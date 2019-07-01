@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -39,6 +40,8 @@ public class ModifyMemo_Activity extends AppCompatActivity {
                 //int price = Integer.parseInt(etPrice.getText().toString());
 
                 dbHelper.insert(date, item);
+                Toast.makeText(v.getContext(), "일정이 추가되었습니다.", Toast.LENGTH_SHORT).show();
+                finish();
                 //result.setText(dbHelper.getResultof(cur_date));
             }
         });

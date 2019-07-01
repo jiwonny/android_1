@@ -153,7 +153,7 @@ public class Fragment1 extends Fragment {
 
         // 문자 입력시마다 리스트를 지우고 새로 뿌려준다.
         foodInfoArrayList.clear();
-
+        charText = charText.toLowerCase();
         // 문자 입력이 없을때는 모든 데이터를 보여준다.
         if (charText.length() == 0) {
             foodInfoArrayList.addAll(dInfoArrayList);
