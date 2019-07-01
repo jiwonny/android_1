@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -115,7 +114,6 @@ public class Fragment1 extends Fragment {
 
                 foodInfoArrayList.add(new FoodInfo(id, image_id, name, phone));
                 dInfoArrayList.add(new FoodInfo(id, image_id, name, phone));
-                Log.i("aaa", name);
 
             }
         } catch (JSONException e) {

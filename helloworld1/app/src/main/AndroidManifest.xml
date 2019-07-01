@@ -26,6 +26,12 @@
         <activity android:name=".ModifyMemo_Activity">
         </activity>
 
+        <activity android:name=".AddMemo_Activity">
+        </activity>
+
+        <activity android:name=".DeleteMemo_Activity">
+        </activity>
+
         <activity android:name=".FullImageActivity">
         </activity>
 

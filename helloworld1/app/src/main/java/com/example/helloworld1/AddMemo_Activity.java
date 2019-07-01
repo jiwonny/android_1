@@ -6,63 +6,58 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class ModifyMemo_Activity extends AppCompatActivity {
+public class AddMemo_Activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_editmemo);
+        setContentView(R.layout.activity_memo);
 
         final DBHelper dbHelper = new DBHelper(getApplicationContext(), "MemoBook22.db", null, 1);
-       // final TextView result = (TextView) findViewById(R.id.result);
+        // final TextView result = (TextView) findViewById(R.id.result);
 
         final EditText etDate = (EditText) findViewById(R.id.date);
         final EditText etItem = (EditText) findViewById(R.id.item);
         //final EditText etPrice = (EditText) findViewById(R.id.price);
 
         Intent i = getIntent();
-        final String memo_id = i.getExtras().getString("date").split("&&")[0];
-        final String cur_date = i.getExtras().getString("date").split("&&")[1];
-        final String content = i.getExtras().getString("date").split("&&")[2];
+        final String cur_date = i.getExtras().getString("date");
         etDate.setText(cur_date);
-        etItem.setText(content, TextView.BufferType.EDITABLE);
+
 
         //result.setText(dbHelper.getResultof(cur_date));
         // DB에 데이터 추가
-//        Button insert = (Button) findViewById(R.id.insert);
-//        insert.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String date = etDate.getText().toString();
-//                String item = etItem.getText().toString();
-//                //int price = Integer.parseInt(etPrice.getText().toString());
-//
-//                dbHelper.insert(date, item);
-//                Toast.makeText(v.getContext(), "일정이 추가되었습니다.", Toast.LENGTH_SHORT).show();
-//                finish();
-//                //result.setText(dbHelper.getResultof(cur_date));
-//            }
-//        });
-
-        // DB에 있는 데이터 수정
-        Button update = (Button) findViewById(R.id.edit);
-        update.setOnClickListener(new View.OnClickListener() {
+        Button insert = (Button) findViewById(R.id.insert);
+        insert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String date = etDate.getText().toString();
                 String item = etItem.getText().toString();
                 //int price = Integer.parseInt(etPrice.getText().toString());
-                Toast.makeText(v.getContext(), "일정이 수정되었습니다.", Toast.LENGTH_SHORT).show();
-                dbHelper.update(item, memo_id);
+
+                dbHelper.insert(date, item);
+                Toast.makeText(v.getContext(), "일정이 추가되었습니다.", Toast.LENGTH_SHORT).show();
                 finish();
                 //result.setText(dbHelper.getResultof(cur_date));
             }
         });
+
+//        // DB에 있는 데이터 수정
+//        Button update = (Button) findViewById(R.id.update);
+//        update.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String item = etItem.getText().toString();
+//                //int price = Integer.parseInt(etPrice.getText().toString());
+//
+//                //dbHelper.update(item, price);
+//                //result.setText(dbHelper.getResultof(cur_date));
+//            }
+//        });
 //
 //        // DB에 있는 데이터 삭제
 //        Button delete = (Button) findViewById(R.id.delete);

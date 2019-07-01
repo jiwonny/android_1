@@ -5,7 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
+
+import java.util.ArrayList;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -37,17 +38,17 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void update(String item, int price) {
+    public void update(String item, String id) {
         SQLiteDatabase db = getWritableDatabase();
         // 입력한 항목과 일치하는 행의 가격 정보 수정
-        db.execSQL("UPDATE MONEYBOOK SET price=" + price + " WHERE item='" + item + "';");
+        db.execSQL("UPDATE MONEYBOOK SET item='" + item + "' WHERE _id= "+ id + ";");
         db.close();
     }
 
-    public void delete(String item) {
+    public void delete(String id) {
         SQLiteDatabase db = getWritableDatabase();
         // 입력한 항목과 일치하는 행 삭제
-        db.execSQL("DELETE FROM MONEYBOOK WHERE item='" + item + "';");
+        db.execSQL("DELETE FROM MONEYBOOK WHERE _id=" + id + ";");
         db.close();
     }
 
@@ -69,15 +70,15 @@ public class DBHelper extends SQLiteOpenHelper {
 
         return result;
     }
-    public String getResultof(String item){
+    public ArrayList getResultof(String item){
         SQLiteDatabase db = getReadableDatabase();
+        ArrayList<MemoInfo> MemoInfoArrayList = new ArrayList<>();
         String result = "";
 
         Cursor cursor = db.rawQuery("SELECT * FROM MONEYBOOK", null);
         while (cursor.moveToNext()) {
-            Log.i("ddda",item);
-            Log.i("ddd", cursor.getString(2));
             if( item.compareTo(cursor.getString(2)) == 0) {
+                MemoInfoArrayList.add(new MemoInfo(cursor.getInt(0), cursor.getString(2),cursor.getString(1)));
                 result += cursor.getString(0)
                         + " : "
                         + cursor.getString(1)
@@ -87,7 +88,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
             }
         }
-        return result;
+        return MemoInfoArrayList;
     }
 }
 
