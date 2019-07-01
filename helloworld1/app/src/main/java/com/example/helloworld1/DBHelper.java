@@ -20,7 +20,7 @@ public class DBHelper extends SQLiteOpenHelper {
         // 새로운 테이블 생성
         /* 이름은 MONEYBOOK이고, 자동으로 값이 증가하는 _id 정수형 기본키 컬럼과
         item 문자열 컬럼, price 정수형 컬럼, create_at 문자열 컬럼으로 구성된 테이블을 생성. */
-        db.execSQL("CREATE TABLE MONEYBOOK (_id INTEGER PRIMARY KEY AUTOINCREMENT, item TEXT, price INTEGER, create_at TEXT);");
+        db.execSQL("CREATE TABLE MONEYBOOK (_id INTEGER PRIMARY KEY AUTOINCREMENT, item TEXT, create_at TEXT);");
     }
 
     // DB 업그레이드를 위해 버전이 변경될 때 호출되는 함수
@@ -29,11 +29,11 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
-    public void insert(String create_at, String item, int price) {
+    public void insert(String create_at, String item) {
         // 읽고 쓰기가 가능하게 DB 열기
         SQLiteDatabase db = getWritableDatabase();
         // DB에 입력한 값으로 행 추가
-        db.execSQL("INSERT INTO MONEYBOOK VALUES(null, '" + item + "', " + price + ", '" + create_at + "');");
+        db.execSQL("INSERT INTO MONEYBOOK VALUES(null, '" + item + "', '" + create_at + "');");
         db.close();
     }
 
@@ -63,9 +63,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     + " : "
                     + cursor.getString(1)
                     + " | "
-                    + cursor.getInt(2)
-                    + "원 "
-                    + cursor.getString(3)
+                    + cursor.getString(2)
                     + "\n";
         }
 
@@ -78,15 +76,13 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("SELECT * FROM MONEYBOOK", null);
         while (cursor.moveToNext()) {
             Log.i("ddda",item);
-            Log.i("ddd", cursor.getString(3));
-            if( item.compareTo(cursor.getString(3)) == 0) {
+            Log.i("ddd", cursor.getString(2));
+            if( item.compareTo(cursor.getString(2)) == 0) {
                 result += cursor.getString(0)
                         + " : "
                         + cursor.getString(1)
                         + " | "
-                        + cursor.getInt(2)
-                        + "원 "
-                        + cursor.getString(3)
+                        + cursor.getString(2)
                         + "\n";
 
             }

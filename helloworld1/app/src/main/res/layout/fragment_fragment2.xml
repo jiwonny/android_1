@@ -19,7 +19,6 @@
         android:verticalSpacing="10dp" />
 
 
-
     <ImageView
         android:id="@+id/iv_view"
         android:layout_width="wrap_content"

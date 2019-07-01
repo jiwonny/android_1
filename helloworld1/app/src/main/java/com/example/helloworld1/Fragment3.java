@@ -2,6 +2,7 @@ package com.example.helloworld1;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,7 @@ public class Fragment3 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_fragment3, container, false);
-        final DBHelper dbHelper = new DBHelper(getActivity().getApplicationContext(), "MemoBook.db", null, 1);
+        final DBHelper dbHelper = new DBHelper(getActivity().getApplicationContext(), "MemoBook22.db", null, 1);
 
         //CalendarView 인스턴스 만들기
         // 날짜는 현재 날짜로 고정
@@ -53,6 +54,7 @@ public class Fragment3 extends Fragment {
 
 
                 cur_date[0] = ""+year+"/"+(month+1)+"/" +dayOfMonth;
+                Log.i("선택",cur_date[0]);
                 text_content.setText(dbHelper.getResultof(cur_date[0]));
 
             }
