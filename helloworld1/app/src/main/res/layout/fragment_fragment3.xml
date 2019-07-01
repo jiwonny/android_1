@@ -25,12 +25,11 @@
 
         />
 
-    <TextView
-        android:id="@+id/text_content"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id = "@+id/recycler_view_memo"
         android:layout_width="match_parent"
         android:layout_height="102dp"
-        android:layout_weight="0"
-        android:text="TextView" />
+        android:layout_weight="0" />
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

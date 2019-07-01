@@ -115,7 +115,6 @@ public class Fragment1 extends Fragment {
 
                 foodInfoArrayList.add(new FoodInfo(id, image_id, name, phone));
                 dInfoArrayList.add(new FoodInfo(id, image_id, name, phone));
-                Log.i("aaa", name);
 
             }
         } catch (JSONException e) {

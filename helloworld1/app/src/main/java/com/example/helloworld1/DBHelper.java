@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 public class DBHelper extends SQLiteOpenHelper {
 
     // DBHelper 생성자로 관리할 DB 이름과 버전 정보를 받음
@@ -69,15 +71,15 @@ public class DBHelper extends SQLiteOpenHelper {
 
         return result;
     }
-    public String getResultof(String item){
+    public ArrayList getResultof(String item){
         SQLiteDatabase db = getReadableDatabase();
+        ArrayList<MemoInfo> MemoInfoArrayList = new ArrayList<>();
         String result = "";
 
         Cursor cursor = db.rawQuery("SELECT * FROM MONEYBOOK", null);
         while (cursor.moveToNext()) {
-            Log.i("ddda",item);
-            Log.i("ddd", cursor.getString(2));
             if( item.compareTo(cursor.getString(2)) == 0) {
+                MemoInfoArrayList.add(new MemoInfo(cursor.getString(2),cursor.getString(1)));
                 result += cursor.getString(0)
                         + " : "
                         + cursor.getString(1)
@@ -87,7 +89,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
             }
         }
-        return result;
+        return MemoInfoArrayList;
     }
 }
 
